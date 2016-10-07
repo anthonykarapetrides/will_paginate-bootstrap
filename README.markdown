@@ -45,11 +45,11 @@ Starting at version 1.0, this gem no longer supports Bootstrap 2.
 	</tr>
 	<tr>
 		<th>will_paginate</th>
-		<td>>= 3.0.3</td>
+		<td>>= 3.1</td>
 	</tr>
 	<tr>
 		<th>Twitter Bootstrap</th>
-		<td>>= 3.0.0</td>
+		<td>>= 4.0.0.alpha3.1</td>
 	</tr>
 </table>
 

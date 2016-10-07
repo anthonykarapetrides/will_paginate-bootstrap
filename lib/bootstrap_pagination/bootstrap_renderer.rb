@@ -15,7 +15,7 @@ module BootstrapPagination
         end
       end.join(@options[:link_separator])
 
-      tag("ul", list_items, class: ul_class)
+      tag("nav", tag("ul", list_items, class: ul_class), 'aria-label' => 'Page navigation')
     end
 
     def container_attributes
@@ -24,28 +24,39 @@ module BootstrapPagination
 
     protected
 
-    def page_number(page)
+    def link_options
       link_options = @options[:link_options] || {}
+      link_options[:class] = "%s page-link" % link_options[:class]
+    end
 
+    def page_number(page)
       if page == current_page
-        tag("li", tag("span", page), class: "active")
+        tag("li", tag("span", page), class: "page-item active")
       else
         tag("li", link(page, page, link_options.merge(rel: rel_value(page))))
       end
     end
 
     def previous_or_next_page(page, text, classname)
-      link_options = @options[:link_options] || {}
-
       if page
-        tag("li", link(text, page, link_options), class: classname)
+        if classname == "next"
+          aria_label  = "Next"
+          aria_hidden = "&laquo;"
+        else
+          aria_label  = "Previous"
+          aria_hidden = "&raquo;"
+        end
+        the_link = link(page, link_options.merge('aria-label' => aria_label)) do
+          text + tag("span", aria_hidden, "aria-hidden" => true) + tag("span", aria_label, :class => "sr-only")
+        end
+        tag("li", the_link, class: "%s page-item" % classname)
       else
-        tag("li", tag("span", text), class: "%s disabled" % classname)
+        tag("li", tag("span", text), class: "%s page-item disabled" % classname)
       end
     end
 
     def gap
-      tag("li", tag("span", ELLIPSIS), class: "disabled")
+      tag("li", tag("span", ELLIPSIS), class: "page-item disabled")
     end
 
     def previous_page
