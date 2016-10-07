@@ -27,6 +27,7 @@ module BootstrapPagination
     def link_options
       link_options = @options[:link_options] || {}
       link_options[:class] = "%s page-link" % link_options[:class]
+      link_options
     end
 
     def page_number(page)
